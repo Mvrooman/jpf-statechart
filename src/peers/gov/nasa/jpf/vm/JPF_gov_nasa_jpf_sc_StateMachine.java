@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.ListenerAdapter;
-//import gov.nasa.jpf.annotation.MJI;
+import gov.nasa.jpf.annotation.MJI;
 import gov.nasa.jpf.jvm.ChoiceGenerator;
 import gov.nasa.jpf.jvm.ClassInfo;
 import gov.nasa.jpf.jvm.ElementInfo;

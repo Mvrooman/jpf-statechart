@@ -21,9 +21,11 @@ package gov.nasa.jpf.vm;
 import gov.nasa.jpf.Config;
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.vm.JPF_gov_nasa_jpf_sc_State;
+import gov.nasa.jpf.jvm.AnnotationInfo;
 import gov.nasa.jpf.jvm.ChoiceGenerator;
 import gov.nasa.jpf.jvm.ClassInfo;
 import gov.nasa.jpf.jvm.DirectCallStackFrame;
+import gov.nasa.jpf.jvm.ElementInfo;
 import gov.nasa.jpf.jvm.MJIEnv;
 import gov.nasa.jpf.jvm.MethodInfo;
 import gov.nasa.jpf.jvm.StackFrame;
@@ -181,19 +183,20 @@ public class NativeStateMachine {
     DirectCallStackFrame frame = (DirectCallStackFrame) ti.getReturnedDirectCall();
 
     if (frame == null) {
-      ClassInfo ci = env.getClassInfo(stateRef);
-      MethodInfo mi = ci.getMethod( methodName, false);
-      if (mi != null){
-        if (logIt){
-          log.info( getStateName(env,stateRef) + '.' + mi.getName());
-        }
-
-        frame = ci.createDirectCallStackFrame(ti, mi, 0);        
-        frame.pushRef( stateRef);
-        ti.pushFrame(frame);
-
-        env.repeatInvocation();
-      }
+    	//mvrooman not sure what has replaced creating a DirectCallStackFrame
+//      ClassInfo ci = env.getClassInfo(stateRef);
+//      MethodInfo mi = ci.getMethod( methodName, false);
+//      if (mi != null){
+//        if (logIt){
+//          log.info( getStateName(env,stateRef) + '.' + mi.getName());
+//        }
+//
+//        frame = ci.createDirectCallStackFrame(ti, mi, 0);        
+//        frame.pushRef( stateRef);
+//        ti.pushFrame(frame);
+//
+//        env.repeatInvocation();
+//      }
     }
   }
 
@@ -204,8 +207,8 @@ public class NativeStateMachine {
           frame.push((Integer)a);
         } else if (a instanceof Boolean) {
           frame.push((Boolean)a ? 1 : 0, false);
-        } else if (a instanceof Double) {
-          frame.pushDouble((Double)a);
+        } else if (a instanceof Double) {  	
+          frame.doublePush((Double)a);        
         } else if (a instanceof String) {
           int sref = env.newString((String)a);
           frame.pushRef(sref);
@@ -1142,7 +1145,7 @@ public class NativeStateMachine {
 
     ThreadInfo ti = env.getThreadInfo();
     Instruction insn = ti.getPC();
-    DirectCallStackFrame frame = ti.getReturnedDirectCall();
+    DirectCallStackFrame frame = (DirectCallStackFrame) ti.getReturnedDirectCall();
 
     if (frame == null) {
 
@@ -1182,17 +1185,18 @@ public class NativeStateMachine {
               // with argument types, we better make sure we don't unblock unless
               // we really execute a corresponding trigger method
               if (checkUnBlocked(env, stateRef, mi)) {
-                logTrigger(env,stateRef,mi);
-
-                e.setConsumed(true);
-
-                frame = ci.createDirectCallStackFrame(ti, mi, 0);
-
-                frame.pushRef(stateRef);
-                pushArgs(env, frame, e.getArguments());
-                ti.pushFrame(frame);
-
-                env.repeatInvocation();
+            	  //mvrooman how to create a frame
+//                logTrigger(env,stateRef,mi);
+//
+//                e.setConsumed(true);
+//
+//                frame = ci.createDirectCallStackFrame(ti, mi, 0);
+//
+//                frame.pushRef(stateRef);
+//                pushArgs(env, frame, e.getArguments());
+//                ti.pushFrame(frame);
+//
+//                env.repeatInvocation();
               }
               return;
             }
