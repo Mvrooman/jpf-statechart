@@ -1,0 +1,15 @@
+@include=${config_path}/jpfESAS.properties
+
+target = gov.nasa.jpf.sc.StateMachine
+target_args = jpfESAS.CEV_15EOR_LOR
+
+log.info=gov.nasa.jpf.sc
+
+report.console.property_violation=error
+
+listener=.listener.ChoiceTracker
+choice.class=.jvm.choice.sc.SCEventGenerator
+choice.exclude=completion
+
+sc.script=${config_path}/flightrules.ec
+

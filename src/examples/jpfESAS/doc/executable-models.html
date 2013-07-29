@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=MacRoman"/>
+<title>Why to Verify Models</title>
+
+<link rel="stylesheet"
+	        type="text/css"
+  	      media="screen"
+    	    href="doc.css" />
+
+</head>
+<body>
+
+<h1>Why Executable Models?</h1>
+
+<h2>(1) if you have complex systems to develop &rArr; <em>use models</em></h2>
+<ul>
+  <li>to focus on isolated aspects of system</li>
+  <li>in the beginning, mostly to facilitate understanding and communication<br>
+      (esp. to derive requirements and procedures)</li>
+  <li>deliberately vague in the beginning, becomes harder to read
+  as model gets refined and formalized</li>
+</ul>
+<p class="comment"><a href="model.html">ESAS 1.5EOR/LOR diagram, aspect annotated (model) diagram</a>, 
+<a href="uml.html">UML formalization</a> &rarr; does it work?</p>
+
+<h2>(2) if you have complex models &rArr; <em>make them executable</em></h2>
+<ul>
+  <li>as models get more complex, it becomes harder to validate them
+      (see what model does)</li>
+  <li>validation greatly improved by simulation &rArr; model execution
+      (turn model into program)</li>
+</ul>
+<p class="comment">nominal sim, tli-sim (error by chance, show in
+model diagram,UML) &rarr; shows how much people implicitly "assume" in informal
+models</p>
+
+<h2>(3) if you have executable models &rArr; <em>verify them</em></h2>
+<ul>
+  <li>simple fact: programs show defects - model or implementation ??</li>
+  <li>find as many model defects as possible before system development starts</li>
+  <li>models less complex than real system, implementation has less
+      constraints &rArr; use tools to automate verification (faster, less expensive)</li>
+</ul>
+<p class="comment">tli (systematic error detection), but more errors ?
+&rarr; JPF scriptless (show lasJettison, stage1Abort ambiguity)<br>
+too many "impossible" defects &rarr; assumption based model checking</p>
+</body>
+</html>

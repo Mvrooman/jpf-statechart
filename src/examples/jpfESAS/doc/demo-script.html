@@ -1,0 +1,153 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Cp1252"/>
+<title>demo script</title>
+<style type="text/css">
+   h1 {text-align: center}
+   em {color:red}
+   li {
+     font-family: sans-serif;
+     font-size: 9pt;
+     padding-bottom: 10;
+   }
+   .comment {
+      color: #a00000;
+      font-family: 'TimesNewRomanPSMT', 'Times New Roman';
+      //font-size: 10.00pt;
+      margin-left: 2cm;
+      //margin-right: 2cm;
+      font-style: italic;
+   }
+}
+</style>
+
+</head>
+<body>
+
+all the demo runs I showed are launched via the Eclipse "Run.."  menubar item,
+and produce output in the Eclipse Console view. Make sure this view is showing 
+(preferrably at the bottom of the screen).
+
+This is a list of the included demos with intended purpose (I suggest doing
+them in that order)
+
+<ol>
+
+<li>start off the doc/demo.html (double click in the package explorer) this
+shows the main outline of the demo</li>
+
+<li>select the "ESAS 1.5..." link in the first topic, which should bring up
+the "slideshow" that shows model refinement, from easy-to-read-but-informal
+to hard-to-read-but-formal, the benefit of formal being mostly to remove
+ambiguity (means the same for everybody)</li>
+
+<li>switch back to demo.html, topic (2). When the models reach a certain level 
+of complexity, it becomes necessary to simulate them, to see if they do what 
+you want. This is model validation, and it requires that there is a way to make 
+the models executable</li>
+
+<li>we do this with UML state charts, by creating a Java program out of the 
+UML diagrams (it's in (default package)/CEV_15EOR_LOR.java). Ultimately this 
+will be automatic, and users might not even want to see the sources, but the 
+overhead is low enough that it actually might be more efficient for power 
+users to start the program and create the diagrams from it. Doing that has 
+the added benefit that you can add whatever assertions and safety checks you 
+have to see if your model works. Anyways - this is our way to make the models 
+executable: one set of diagrams gets translated into on Java source file</li>
+
+<li>to show the simulation, run (from the menubar "Run..") "CEV-nominal-sim". 
+This just uses a nominal event sequence (from CEV_15EOR_LOR-nominal.es) and 
+shows a log of how the system reacts to it. The type of simulation is not 
+very impressive, but this could be interfaced to real fancy visualizations 
+e.g. animating the doc/CEV_15EOR_LOR-model.png diagram). That's just an 
+example of how to execute and test the model. There is also an interactive 
+version that can be executed with CEV-interactive-sim (in each step enter 
+the 1-based number of the event list the system presents to you, or 'q' to quit)</li>
+
+<li>now run "CEV-tli-sim" (using CEV_15EOR_LOR-tli-sim.es) as an example 
+of an event sequence that actually triggers an assertion in the model, 
+finding a defect "by chance". It comes back with an error that says 
+"tliBurn without EDS" (trying to go to the moon w/o an earth departure 
+stage attached). Diagram doc/EarthOrbit-tli.png shows the defect as it 
+manifests in the UML diagrams: there is no provision in the diagram that 
+says the "lsamRendezvous" event has to happen before the "tliBurn" event.</li>
+
+<li>wouldn't it be nice to find model errors systematically, not by chance?
+Enter topic (3) on the demo.html page - now we use JPF to find the same bug for us.</li>
+
+<li>run "CEV-tli". It finds the same defect, but also reports us the sequence 
+of events leading to it (the "choice trace" report section in the console view).  
+The "tliBurn without EDS" is clearly a modeling error, but one that people 
+might say is just UML specific (without the UML modeling, it would not be there)</li>
+
+<li>run "CEV-ascent-guards". This time JPF finds something in the ascent that 
+is clearly a model bug which is not related to UML. 
+Diagram doc/Ascent-ambiguity.png has the details: while in FirstStage, the 
+abort event has an 'altitude' parameter that determines which is the next 
+state - only that the branch conditions (UML guards) are ambiguous in case the 
+altitude is exactly 1.2e5. This one is lifted from an early version of the 
+ARES Ascent Onboard Abort Executive flight rules</li>
+
+<li> - optional - at this point, you can show more defects, depending on time.
+"CEV-las-defect" shows basically the same problem like "CEV-tli": no lasJettison 
+eveny before an lsamRendezvoud, but with the LAS attached, the CEV can't be 
+docked. "CEV-safehold" is an example where we check if certain states can be 
+reached for a certain input sequence. As it is modeled, this is not the case 
+for EarthOrbit.SafeHold, but that's more subtle to show (branch condition in 
+EarthOrbit.Insertion depends on something that is never set in the model). 
+This one also shows a report with coverage metrics</li>
+
+<li>all this was still using guidance scripts (the "*.es" files), albeit 
+with wildcards ("ANY {*}"), which means JPF systematically looked at all 
+choices at this state. So what if we make an error with the guidance script? 
+The best way to avoid this is not having to depend on any. Run "CEV-scriptless" 
+does exactly this. But we do a bit more - since we now look at the whole state 
+space, we want to achieve as much as possible in one run, so we ask JPF to 
+report assertion violations but otherwise go on to find as many as it can. 
+It comes back with a list of 100 defects. Scroll upwards in the console and 
+look at them. Some of them are already old acquaintances, but others are not. 
+Already the first one turns out to be something that most likely didn't jump 
+out when we looked at the doc/Ascent-ambiguity.png (the ambiguous guards 
+from step (9)) : what happens if "altitude > 1.2e5 and not controlMotorFired"? 
+This is a forgotten branch in the diagram.
+
+<p> But looking further up, we see some other errors repeating, some
+follow-on errors (eiBurn w LAS, chute sequence with LAS) and some event 
+sequences that simply don't make sense (repeated lsamRendezvous, tliBurn w/o lsamRendezvous).</p>
+
+<p>This means we not only get more in terms of detected errors if we rely more 
+on JPF. We also get "less" because of more false positives (results show less
+"common sense")</p></li>
+
+<li>we can eliminate follow-on errors by telling JPF not to ignore errors - 
+as soon as we hit one, we back up and try a new event sequence. Running
+"CEV-scriptless-bt" cuts the number of errors down to 25.
+
+<p> but this is not a panacea, because we might miss new errors that are
+now just masked by previous but otherwise unrelated defects. But short of 
+the "compositional verification" extension, this is probably the best
+model verification technique - when used iteratively</p>
+</li>
+
+
+<li>So wouldn't it be good if we could tell JPF some "common sense"
+in terms of "natural event sequences" and flight rules (e.g. things that are
+ensured by the flight plan)? We can do this
+
+<p>run "CEV-scriptless-constraint", which uses flight rules from
+"flightrules.ec" to narrow down the set of valid event sequences. This
+cuts the errors down to 8, and only shows the ones that really have to be
+fixed in the model (like the ascent guard ambiguity).</p>
+
+<p>But again there is no such thing as a free meal: we have reduced the number
+of errors, but at the cost of having to create filght rules. That's a
+"program" too - who says it doesn't have errors? The ideal solution would be
+if JPF could tell us what flight rules would avoid what defects, i.e. if JPF
+would basically create "flightrules.ec". This is exactly what the 
+"Compositional Verification" extension of Dimitra and Corina does, which is
+subject to the next demo</p></li>
+
+</ol>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=MacRoman"/>
+<title>UML State Chart Verification with JPF</title>
+
+<link rel="stylesheet"
+	        type="text/css"
+  	      media="screen"
+    	    href="doc.css" />
+</head>
+
+
+<body>
+
+<h1>UML State Chart Verification with JPF</h1>
+
+<h2>(1) JPF = explicit state SW model checker &rArr; <em>too generic for UML?</em></h2>
+<ul>
+  <li>can check arbitrary Java bytecode programs</li>
+  <li>open sourced on <a href="http://javapathfinder.sourceforge.net">SourceForge</a>
+  <li>so far mostly used for verification of concurrent applications</li>
+  <li>could handle various state chart implementations</li>
+</ul>
+
+<h2>(2) Challenges for UML verification</h2>
+<ul>
+  <li>separate invariant model structure (hierarchy of states, transitions)
+  from framework implementing UML execution semantics (policy, weak definition)</li>
+  <li>make model part suitable for simulation and model checking</li>
+  <li>keep implementation overhead in model part low (readability)</li>
+  <li>design framework part (execution engine) so that states of the UML model
+  and the Java program are in line (no "artificial" program states exposed)</li>
+  <li>enable traces over UML model events (not bytecode instructions)</li>
+  <li><b>&rArr; purpose UML state chart implementation is testing and verification,
+  not runtime efficiency (not for production systems)</b></li>
+</ul>
+
+
+
+<h2>(3) Benefits</h2>
+<ul>
+  <li>model can be refined (e.g. actions with side effects) without
+  the need for another verification tool</li>
+  <li>verification can be guided (series of events) and free (exhaustive
+  search over all possible events)</li>
+  <li>various, extensible properties (by means of JPF listener infrastructure):
+  safety (assertions, ambiguous transitions, ..), temporal (via synchronized
+  property automata)</li>
+</ul>
+
+</body>
+</html>

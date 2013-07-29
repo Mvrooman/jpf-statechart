@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=MacRoman"/>
+<title>Compositional Verification for Environment Assumptions</title>
+<link rel="stylesheet"
+	        type="text/css"
+  	      media="screen"
+    	    href="doc.css" />
+</head>
+
+<body>
+
+<h1>Environment Assumptions</h1>
+
+<h2>Motivation</h2>
+<ul>
+  <li>reduce "false positives" and trivial errors by introducing constraints
+  on valid (realistic) event sequences (= environment constraints)</li>
+  <li>automatically generate constraints that can serve as "flight rules"</li>
+</ul>
+
+<h2>Implementation</h2>
+<ul>
+  <li>given an alphabet of relevant events, use compositional verification
+  techniques to generate constraint candidates (by running JPF as an oracle)</li>
+  <li>encode validated constraints as automata that are executed
+  synchronuously with the UML state machine, cutting off invalid event
+  sequences before they could lead to property violations</li>
+</ul>
+
+</body>
+</html>

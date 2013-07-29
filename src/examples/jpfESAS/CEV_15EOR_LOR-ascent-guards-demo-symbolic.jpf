@@ -1,0 +1,15 @@
+# some common jpfESAS settings (classpath, sourcepath of example)
+@include=${config_path}/jpfESAS.properties
+
+# we need to execute this symbolically
+@include=${jpf-statechart}/../jpf-symbc/jpf.properties
+
+sc.script=${config_path}/CEV_15EOR_LOR-ascent-guards-demo-symbolic.es
+
+
+
+# symbc specifics (some of this might go into its jpf.properties)
+listener+=,.symbc.SymbolicListener
+
+
+symbolic.method = jpfESAS.CEV_15EOR_LOR$Ascent$FirstStage.abort(sym#con)

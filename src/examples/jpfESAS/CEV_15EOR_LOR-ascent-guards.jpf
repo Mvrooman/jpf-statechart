@@ -1,0 +1,4 @@
+@include=${config_path}/jpfESAS.properties
+
+sc.script=${config_path}/CEV_15EOR_LOR-ascent-guards.es
+

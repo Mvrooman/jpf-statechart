@@ -1,0 +1,10 @@
++_log.info=gov.nasa.jpf.sc
++jpf.report.console.property_violation=error
++vm.store_steps=true
++jpf.listener=.tools.ChoiceTracker:.cv.SafetyListener
++safetyListener1.assumption=examples/jpfESAS/script/generatedAssumption1
++choice.class=gov.nasa.jpf.jvm.choice.sc.SCEventGenerator
++choice.exclude=completion
++search.multiple_errors=true
+gov.nasa.jpf.sc.StateMachine
+visualize.CEV_15EOR_LOR

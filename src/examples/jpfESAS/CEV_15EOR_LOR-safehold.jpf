@@ -1,0 +1,10 @@
+@include=${config_path}/jpfESAS.properties
+
+log.info=gov.nasa.jpf.sc
+report.console.property_violation=error
+
+listener=.tools.sc.Coverage
+sc.required=earthOrbit
+
+sc.script=${config_path}/CEV_15EOR_LOR-safehold.es
+

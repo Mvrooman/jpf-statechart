@@ -1,0 +1,21 @@
+
+h1 {
+  text-align: center
+}
+
+em {
+  color:red
+}
+
+li {
+  font-size:large
+}
+
+.comment {
+  color: #a00000;
+  font-family: 'TimesNewRomanPSMT', 'Times New Roman';
+  //font-size: 10.00pt;
+  margin-left: 2cm;
+  //margin-right: 2cm;
+  font-style: italic;
+}

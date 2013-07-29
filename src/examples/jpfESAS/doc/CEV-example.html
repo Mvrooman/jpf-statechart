@@ -1,0 +1,46 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=MacRoman"/>
+<title>CEV Example Model</title>
+<link rel="stylesheet"
+	        type="text/css"
+  	      media="screen"
+    	    href="doc.css" />
+
+</head>
+
+<body>
+
+<h1>CEV Example Model</h1>
+
+<h2>(1) Purpose</h2>
+<ul>
+  <li>demonstrate model translation (UML to Java) in a moderately sized
+  but non-trivial example (using hierarchy, orthogonal regions etc.)</li>
+  <li>demonstrate explicit and implicit statechart properties that can
+  checked by JPF</li>
+  <li>demonstrate guided and non-guided verification</li>
+  <li>demonstrate usage of state machine controlled objects (general code)</li>
+</ul>
+
+<h2>(2) Scope</h2>
+<ul>
+  <li>extracted from publicly available final ESAS report</li>
+  <li>models flight phases, key events, vehicle configuration and
+  major abort scenarios of the "1.5 EOR-LOR" reference mission</li>
+</ul>
+
+
+<h2>(3) Defects</h2>
+<ul>
+  <li>seeded, but mostly from early CEV requirement documents</li>
+  <li>explicit safety properties: "no lsamRendezvous without lasJettison",
+  "no tliBurn without lsamRendezvous", etc. (via assertions)</li>
+  <li>implicit safety properties: "ambiguous transition during first stage abort"</li>
+  <li>reachability: "SafeHold not reachable"</li>
+  <li>shown in guided and scriptless JPF modes</li>
+</ul>
+
+
+</body>
+</html>
