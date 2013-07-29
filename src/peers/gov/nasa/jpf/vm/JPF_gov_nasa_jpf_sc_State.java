@@ -21,6 +21,7 @@ package gov.nasa.jpf.vm;
 import gov.nasa.jpf.Config;
 import gov.nasa.jpf.jvm.ClassInfo;
 import gov.nasa.jpf.jvm.FieldInfo;
+import gov.nasa.jpf.jvm.MJIEnv;
 import gov.nasa.jpf.jvm.NativePeer;
 
 import java.util.ArrayList;
@@ -32,11 +33,15 @@ public class JPF_gov_nasa_jpf_sc_State extends NativePeer {
   // map state names to (invariant) ElementInfo ids
   public static HashMap<String,Integer> map;
       
-  public JPF_gov_nasa_jpf_sc_State (Config conf){
-    map  = new HashMap<String,Integer>();
-  }
+//  public JPF_gov_nasa_jpf_sc_State (Config conf){
+//    map  = new HashMap<String,Integer>();
+
+  public JPF_gov_nasa_jpf_sc_State (Class<?> peerClass, ClassInfo ci){ //mvrooman
+	    super(peerClass,ci);
+	    map  = new HashMap<String,Integer>();
+	  }
   
-  @MJI
+  //@MJI
   public void setStateFields____V (MJIEnv env, int objRef) {
     ClassInfo ci = env.getClassInfo(objRef);
     ClassInfo sci = ClassInfo.getResolvedClassInfo("gov.nasa.jpf.sc.State");

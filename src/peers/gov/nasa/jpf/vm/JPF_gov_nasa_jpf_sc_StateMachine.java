@@ -25,12 +25,14 @@ import java.util.logging.Logger;
 
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.ListenerAdapter;
-import gov.nasa.jpf.annotation.MJI;
+//import gov.nasa.jpf.annotation.MJI;
 import gov.nasa.jpf.jvm.ChoiceGenerator;
 import gov.nasa.jpf.jvm.ClassInfo;
 import gov.nasa.jpf.jvm.ElementInfo;
 import gov.nasa.jpf.jvm.FieldInfo;
 import gov.nasa.jpf.jvm.JVM;
+import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.jvm.NativePeer;
 import gov.nasa.jpf.jvm.SystemState;
 import gov.nasa.jpf.jvm.ThreadInfo;
 import gov.nasa.jpf.jvm.choice.sc.SCEventGenerator;
@@ -51,6 +53,10 @@ public class JPF_gov_nasa_jpf_sc_StateMachine extends NativePeer {
 
   static DynamicObjectArray<NativeStateMachine> machines;
 
+  public JPF_gov_nasa_jpf_sc_StateMachine (Class<?> peerClass, ClassInfo ci){ //mvrooman
+	    super(peerClass,ci);
+	  }
+  
   static class Listener extends ListenerAdapter {
     boolean isSCEventState(Search search) {
       JVM vm = search.getVM();
